@@ -1,8 +1,0 @@
----
-- hosts: webservers
-  sudo: yes
-
-  tasks:
-  - include: web_db.yaml
-    
-

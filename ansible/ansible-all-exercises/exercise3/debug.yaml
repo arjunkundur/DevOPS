@@ -1,8 +1,0 @@
----
-- hosts: localhost
-  gather_facts: no
-  tasks:
-   - name: Just debugging
-     debug: msg="THis host is ...."
-  tasks:
-    - debug: msg="Testing it again"
