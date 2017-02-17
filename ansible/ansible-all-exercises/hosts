@@ -1,0 +1,10 @@
+[local]
+127.0.0.1
+[web]
+52.2.200.9
+52.0.61.111
+
+[web:vars]
+ansible_ssh_user=bawarchi
+ansible_ssh_pass=alliance123$
+ansible_sudo_pass=alliance123$

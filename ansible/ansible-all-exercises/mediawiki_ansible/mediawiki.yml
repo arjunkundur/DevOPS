@@ -1,0 +1,60 @@
+---
+- hosts: wiki
+  become: true
+  tasks:
+  - name: Installing admin tools
+    apt: name={{ item }} state=present update_cache=yes
+    with_items:
+      - git
+      - ntp
+      - php5-mysql
+      - apache2
+      - mysql-server
+      - python-mysqldb
+      - libapache2-mod-php5
+    
+  - name: Starting ntp service
+    service: name=ntp state=started
+    
+  - name: Ensure Apache is running
+    service: name=apache2 state=started
+    
+  - name: Installs Apache2 modphp5 module
+    apache2_module: state=present name=php5
+
+  - name: ensure mysql listening on all ports
+    lineinfile: dest=/etc/mysql/my.cnf regexp=^bind-address line="bind-address = 0.0.0.0"
+    
+    notify: restart mysql
+    
+  - name: Set root user password
+    mysql_user: name=root
+              password=training
+              check_implicit_admin=yes
+              login_user=root
+              login_password=training
+              state=present
+
+  - name: Removes default index.html file
+    file: dest=/var/www/html/index.html state=absent
+              
+  - git: repo=https://github.com/wikimedia/mediawiki.git dest=/var/www/html/ version=REL1_23
+    notify: restart apache
+
+  - name: Allows port 80 on firewall
+    ufw: rule=allow port=80 proto=tcp
+
+
+  handlers:
+    - name: restart mysql
+      service: name=mysql state=restarted
+      
+    - name: restart apache
+      service: name=apache2 state=restarted      
+
+
+    
+    
+  
+
+  

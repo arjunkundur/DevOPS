@@ -1,0 +1,19 @@
+
+web1 ansible_ssh_host=52.0.61.111
+db1 ansible_ssh_host=52.2.200.9 
+
+
+[webservers]
+web1
+
+[dbservers]
+db1
+
+[datacenter:children]
+webservers
+dbservers
+
+[datacenter:vars]
+ansible_ssh_user=bawarchi
+ansible_ssh_pass='alliance123$'
+ansible_sudo_pass='alliance123$'
