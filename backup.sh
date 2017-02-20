@@ -1,21 +1,13 @@
 #!/bin/bash
 # AUTO BACKUP FOR THE SELECTED DIRECTORIES
 
-HOME_DIR= /home/devops/training/
 
 echo "=========COPYING STARTED=============="
-cp -r HOME_DIR/ansible/ $HOME_DIR/DevOps
-cp -r HOME_DIR/bash/ $HOME_DIR/DevOps
-cp -r HOME_DIR/git/ $HOME_DIR/DevOps
-cp -r HOME_DIR/jenkins/ $HOME_DIR/DevOps
-cp -r HOME_DIR/vagrant/ $HOME_DIR/DevOps
-echo "=========COPYING COMPLETED============"
+cp -r /home/devops/training/ansible /home/devops/training/DevOps
 
-git add .
-git commit -m " Backup Of Selected Dir's "
-git push origin master
-
-echo " GIT UPLOAD SUCESSFULL "
+cp -r /home/devops/training/jenkins /home/devops/training/DevOps
+cp -r /home/devops/training/bash /home/devops/training/DevOps
+cp -r /home/devops/training/vagrant /home/devops/training/DevOps
 
 
 
