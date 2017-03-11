@@ -1,0 +1,38 @@
+---
+- hosts: tomcatservers
+  become: yes
+  gather_facts: False 
+
+  tasks:
+
+  - name: Install EPEL-release (Use--> Repository Where Tomcat is available)
+    yum: name=epel-release state=present
+
+  - name: Install Java-1.7
+    yum: name=java-1.7.0-openjdk.x86_64 state=present
+
+  - name: Install tomcat ( Use--> Application Server )
+    yum: name=tomcat state=present
+
+  - name: Download latest gameoflife.war file
+    get_url: url=http://52.25.39.134:8081/nexus/content/repositories/gameoflife-repo/Dev/{{time}}/{{build}}/{{gol_version}} dest=/tmp/ mode=755
+
+  - name: Stop Tomcat Service
+    service: name=tomcat state=stopped
+
+  - name: Copy artifact to the tomcat folder
+    shell: cp /tmp/{{gol_version}} /var/lib/tomcat/webapps
+
+  - name: Delete the link to existing game of life version
+    file: path=/var/lib/tomcat/webapps/gameoflife state=absent
+
+  - name: Starting TOMCAT Service
+    service: name=tomcat state=started
+  - wait_for: path=/var/lib/tomcat/webapps/{{time}}-{{build}}
+
+  - name: Link latest game of life version
+    file: src=/var/lib/tomcat/webapps/{{time}}-{{build}} dest=/var/lib/tomcat/webapps/gameoflife state=link
+
+  - name: Stop Firewall
+    service: name=iptables state=stopped
+
