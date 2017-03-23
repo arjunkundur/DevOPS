@@ -5,7 +5,6 @@
 
   tasks:
 
-
   - name: Install EPEL-release (Use--> Repository Where Tomcat is available)
     yum: name=epel-release state=present
 
